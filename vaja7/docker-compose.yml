@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  streznik1:
+    image: php:apache
+    container_name: streznik1
+    ports:
+      - "8090:80"  # Strežnik 1 na portu 8090
+    volumes:
+      - /Users/galbercon/Desktop/Faks/Letnik3/DSA/vaje/vaja7:/var/www/html
+
+  streznik2:
+    image: php:apache
+    container_name: streznik2
+    ports:
+      - "9000:80"  # Strežnik 2 na portu 9000
+    volumes:
+      - /Users/galbercon/Desktop/Faks/Letnik3/DSA/vaje/vaja7/vaja7_spremenjena:/var/www/html  # Spremenjena mapa

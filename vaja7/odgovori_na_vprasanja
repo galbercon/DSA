@@ -1,0 +1,125 @@
+1.1 Predstavitev problematike
+1. Naštejte nekaj ključnih prednosti računalnišva v oblaku, ki jih omogoča virtualizaija:
+    - Boljša izraba strojne opreme.
+    - Večja prilagodljivost in skalabilnost.
+    - Manjši stroški in večja učinkovitost.
+    - Večja varnost in zanesljivost.
+    - Enostavnejša uporaba in vzdrževanje.
+
+1.2 Virtualizacija
+1. Kakšne so razlike med hipervizorjem tipa 1 in 2? Naštejte njune prednosti in slabosti:
+    Hipervizor tipa 1:
+    - Deluje neposredno na strojni opremi (bare-metal).
+    - Prednosti:
+        - Boljša zmogljivost in učinkovitost, saj ni vmesnega operacijskega sistema.
+        - Višja varnost, ker je manj slojev programske opreme.
+    - Slabosti:
+        - Težja namestitev in konfiguracija.
+        - Manjša združljivost s strojno opremo.
+
+    Hipervizor tipa 2:
+    - Deluje na vrhu gostiteljskega operacijskega sistema.
+    - Prednosti:
+        - Lažja namestitev in uporaba, saj deluje kot aplikacija na obstoječem OS.
+        - Boljša združljivost s strojno opremo.
+    - Slabosti:
+        - Manjša zmogljivost zaradi dodatnega sloja operacijskega sistema.
+        - Večja ranljivost, ker je odvisen od varnosti gostiteljskega OS.
+
+2. Navedite vsaj dva »bare-metal« in dva »hosted« hipervizorja:
+    Bare-metal:
+    - VMware vSphere
+    - Microsoft Hyper-V
+    Hosted:
+    - Oracle VirtualBox
+    - VMware Workstation
+
+3. Navedite primer emulatorja ali primer emulacije med dvema procesorskima ahitekturama: 
+    - Emulator: QEMU
+    - Emulacija: izvajanje x86 programov na ARM procesorju
+
+4. Ali so hitrejši oz. bolj učnkoviti emulirani ali virtualizirani viri? Kakšna je tipična uporaba »passthrough« načina? 
+    - Virtualizirani viri so hitrejši in bolj učinkoviti, ker delujejo na strojni opremi.
+    - Passthrough način se uporablja za neposreden dostop do strojne opreme iz virtualnega stroja, kar poveča zmogljivost in zmanjša latenco.
+
+5. Opišite razlike med klasično virtualizacijo ter kontejnerizacijo:
+    Klasična virtualizacija:
+    - Vsak virtualni stroj ima svoj operacijski sistem.
+    - Večja poraba virov zaradi večjega števila OS.
+    - Počasnejši zagon in večja poraba pomnilnika.
+    - Večja varnost zaradi ločenih OS.
+    Kontejnerizacija:
+    - Vsi kontejnerji delijo isti OS jedro.
+    - Manjša poraba virov zaradi deljenja OS.
+    - Hitrejši zagon in manjša poraba pomnilnika.
+    - Manjša varnost zaradi skupnega OS.
+
+6. Naštejte prednosti kontjnerjev pred virtualnimi stroji in obratno (učinkovitost, varnost, izolacija, ipd.):
+    Prednosti
+    Kontejnerji:
+    - Manjša poraba virov.
+    - Hitrejši zagon in manjša poraba pomnilnika.
+    - Enostavnejša uporaba in vzdrževanje.
+    - Večja prenosljivost in združljivost.
+    Virtualni stroji:
+    - Večja varnost zaradi ločenih OS.
+    - Večja izolacija med aplikacijami.
+    - Večja združljivost s strojno opremo.
+    - Večja prilagodljivost in prilagajanje virov.
+
+7. Katere tehnologije kontejnerizacije poznate? Naštejte vsaj eno iz vsake vrste kontejnerizacije:
+    - Sistem za upravljanje z vsebniki: Docker
+    - Sistem za orkestracijo vsebnikov: Kubernetes
+    - Sistem za upravljanje z vsebniki: LXC
+
+8. Kakšna je tipična razlika med namembnostjo aplikacijskih kontejnerjev (Docker) in OS-kontejnerjev (LXC)? 
+    - Aplikacijski kontejnerji so namenjeni izvajanju posameznih aplikacij v izoliranem okolju, medtem ko so OS-kontejnerji namenjeni izvajanju celotnega operacijskega sistema v izoliranem okolju.
+
+
+2.2 Naloga: postavitev razvojnega spletnega strežnika (iz predpripravljene aplikacijke slike)
+
+1. Kakšen je vpliv argumenta –mount na zunanje spremembe datotek med delovanjem kontejnerja?
+    - Argument --mount omogoča trajno shranjevanje podatkov izven kontejnerja, kar omogoča ohranjanje sprememb tudi po izklopu kontejnerja.
+
+2. Kako deluje argument –publish?
+    - Argument --publish omogoča določanje vhodnih in izhodnih vrat, ki so dostopna izven kontejnerja.
+
+3. Na kakšne načine lahko preverite verzijo in podrobnosti PHP v kontejnerju? 
+    - Z ukazom php -v ali php -i.
+
+
+2.3 Naloga: priprava produkcijske različice spletne aplikacije (izdelava lastne aplikacijske slike)
+
+1. Recept  za  pripravo  novih  zabojnikov  podajamo  v  datotekah  Dockerfile.  Oglejte  si  povezavo  z  navodili  za 
+kontejnerizacijo  aplikacij  (https://docs.docker.com/get-started/02_our_app/)  ter  v  nekaj  nekaj  vrsticah  zapišite 
+Dockerfile za vaš projekt.
+    FROM php:7.4-apache
+    COPY src/ /var/www/html/
+    EXPOSE 80
+
+2. Kateri korak v vaši Dockerfile datoteki je aplikacijski sliki dodal nov sloj?
+    - COPY src/ /var/www/html/
+
+
+2.4 Naloga: uporaba Docker Compose
+
+1. Kako vam Docker Compose olajša spremembe konfiguracij kontejnerja? Spremenite vrata na 8090. 
+    - Docker Compose omogoča enostavno upravljanje več kontejnerjev z eno konfiguracijsko datoteko, kar olajša spremembe in posodobitve.
+    - Spremembo vrat lahko naredimo v datoteki docker-compose.yml z dodajanjem vrstice ports: - "8090:80".
+
+2. Nazadnje  v  isto  docker-compose.yml  datodeko  dodajte  predpis  za  še  en  enak  kontejner,  ki  bo  stregel  rahlo 
+spremenjeno vsebino na portu 9000. Kakšna bo vaša nova docker-compose.yml datoteka?
+    version: '3'
+    services:
+        web:
+            image: php:7.4-apache
+            ports:
+                - "8090:80"
+            volumes:
+                - ./src:/var/www/html
+        web2:
+            image: php:7.4-apache
+            ports:
+                - "9000:80"
+            volumes:
+                - ./src2:/var/www/html
